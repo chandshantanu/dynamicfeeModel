@@ -1,0 +1,22 @@
+version: '3'
+services:
+  dynamic-fee-model:
+    build: .
+    environment:
+      - ETHEREUM_WSS_ENDPOINT=${ETHEREUM_WSS_ENDPOINT}
+      - ETHEREUM_PRIVATE_KEY=${ETHEREUM_PRIVATE_KEY}
+      - ORACLE_CONTRACT_ADDRESS=${ORACLE_CONTRACT_ADDRESS}
+      - POOL_CONTRACT_ADDRESS=${POOL_CONTRACT_ADDRESS}
+      - POLL_INTERVAL=${POLL_INTERVAL:-2}
+      - MODEL_FILE_PATH=/app/model_data/model_state.joblib
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - PYTHONPATH=/app
+    ports:
+      - "5001:5000"
+    networks:
+      - uniswap
+    volumes:
+      - .:/app
+networks:
+  uniswap:
+    driver: bridge
